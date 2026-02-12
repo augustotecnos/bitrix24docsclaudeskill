@@ -17,7 +17,7 @@ Plugin para [Claude Code](https://docs.anthropic.com/en/docs/claude-code) que fo
 ### Como plugin global (disponivel em qualquer projeto)
 
 ```bash
-claude plugin add /caminho/para/DOCUMENTACAO_BITRIX24
+claude plugin add /caminho/para/bitrix24docsclaudeskill
 ```
 
 ### Verificar instalacao
@@ -59,7 +59,7 @@ O Claude vai consultar os arquivos de documentacao, encontrar a informacao relev
 ## Estrutura do projeto
 
 ```
-DOCUMENTACAO_BITRIX24/
+bitrix24docsclaudeskill/
 ├── plugin.json                 # Manifesto do plugin
 ├── skills/
 │   └── bitrix24-api.md         # Skill com instrucoes de navegacao
@@ -220,7 +220,7 @@ O frontmatter YAML permite busca programatica por metodo. O arquivo `_manifest.j
 Se preferir usar sem instalar como plugin, basta abrir o diretorio no Claude Code:
 
 ```bash
-cd /caminho/para/DOCUMENTACAO_BITRIX24
+cd /caminho/para/bitrix24docsclaudeskill
 claude
 ```
 
