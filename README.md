@@ -14,10 +14,50 @@ Plugin para [Claude Code](https://docs.anthropic.com/en/docs/claude-code) que fo
 
 ## Instalacao
 
-### Como plugin global (disponivel em qualquer projeto)
+O Claude Code instala plugins via **marketplaces**. Voce precisa primeiro registrar um marketplace local que contenha o plugin.
+
+### Passo 1 — Criar o marketplace local (so na primeira vez)
+
+Crie uma pasta para o marketplace (ou use uma existente):
 
 ```bash
-claude plugin add /caminho/para/bitrix24docsclaudeskill
+mkdir -p /caminho/para/meu-marketplace/.claude-plugin
+mkdir -p /caminho/para/meu-marketplace/plugins
+```
+
+Crie o arquivo `/caminho/para/meu-marketplace/.claude-plugin/marketplace.json`:
+
+```json
+{
+  "name": "local-plugins",
+  "owner": { "name": "seu-nome" },
+  "plugins": [
+    {
+      "name": "bitrix24-api-docs",
+      "source": "./plugins/bitrix24-api-docs",
+      "description": "Bitrix24 REST API documentation reference",
+      "version": "1.0.0"
+    }
+  ]
+}
+```
+
+Crie um symlink do plugin dentro da pasta `plugins/`:
+
+```bash
+ln -s /caminho/real/para/bitrix24docsclaudeskill /caminho/para/meu-marketplace/plugins/bitrix24-api-docs
+```
+
+### Passo 2 — Registrar o marketplace
+
+```bash
+claude plugin marketplace add /caminho/para/meu-marketplace
+```
+
+### Passo 3 — Instalar o plugin
+
+```bash
+claude plugin install bitrix24-api-docs@local-plugins
 ```
 
 ### Verificar instalacao
@@ -26,12 +66,12 @@ claude plugin add /caminho/para/bitrix24docsclaudeskill
 claude plugin list
 ```
 
-Voce deve ver `bitrix24-api-docs` na lista.
+Voce deve ver `bitrix24-api-docs@local-plugins` com status `enabled`.
 
 ### Remover
 
 ```bash
-claude plugin remove bitrix24-api-docs
+claude plugin uninstall bitrix24-api-docs@local-plugins
 ```
 
 ## Como funciona
@@ -60,7 +100,8 @@ O Claude vai consultar os arquivos de documentacao, encontrar a informacao relev
 
 ```
 bitrix24docsclaudeskill/
-├── plugin.json                 # Manifesto do plugin
+├── .claude-plugin/
+│   └── plugin.json             # Manifesto do plugin
 ├── skills/
 │   └── bitrix24-api.md         # Skill com instrucoes de navegacao
 ├── docs/                       # Documentacao completa (53 arquivos .md + 1 .json)
